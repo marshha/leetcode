@@ -1,8 +1,40 @@
+import Queue
 class Solution(object):
 	def mergeKLists(self, lists):
 		"""
 		:type lists: List[ListNode]
 		:rtype: ListNode
+
+		Use a PriorityQueue to ensure that the head is always the lowest
+		"""
+		head_node = None
+		iter_node = None
+		pq = Queue.PriorityQueue()
+		for l in lists:
+			if l != None:
+				pq.put((l.val, l))
+
+		while not pq.empty():
+			(curr_val, curr) = pq.get()
+			if curr.next:
+				pq.put((curr.next.val, curr.next))
+
+			curr.next = None
+			if head_node == None:
+				head_node = curr
+			else:
+				iter_node.next = curr
+
+			iter_node = curr
+
+		return head_node
+
+	def mergeKLists_simple(self, lists):
+		"""
+		:type lists: List[ListNode]
+		:rtype: ListNode
+
+		A simple solution ignoring the head of the queues
 		"""
 		head_node = None
 		iter_node = None
